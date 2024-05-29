@@ -1,6 +1,8 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import { configDotenv } from 'dotenv'
+import userRoute from './routes/User.route.js'
+import authRoute from "./routes/Auth.route.js"
 
 configDotenv()
 
@@ -14,7 +16,9 @@ mongo_db_connection_url_string = mongo_db_connection_url_string.replace(
 mongo_db_connection_url_string = mongo_db_connection_url_string.replace(
   '<username>', mongo_db_username)
 
-const app = express()
+const app = express();
+
+app.use(express.json());
 
 mongoose.connect(mongo_db_connection_url_string).then(
   () => {
@@ -28,4 +32,10 @@ mongoose.connect(mongo_db_connection_url_string).then(
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
-})
+});
+
+
+
+
+app.use("/api/user", userRoute);
+app.use("/api/auth",authRoute);
