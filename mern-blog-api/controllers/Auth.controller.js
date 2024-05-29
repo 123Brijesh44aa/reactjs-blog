@@ -1,7 +1,8 @@
 import User from '../models/User.model.js'
 import bcrypt from "bcryptjs";
+import { errorHandler } from '../utils/error.js'
 
-export const signup = async (req,res) => {
+export const signup = async (req,res,next) => {
 
     try {
         const { username, email, password } = req.body;
@@ -9,45 +10,25 @@ export const signup = async (req,res) => {
         // Check if all fields are filled
         if (password === '' || email === '' || username === '' || !password ||
           !email || !username) {
-            return res.status(400).json(
-              {
-                  success: false,
-                  message: 'All fields are required',
-              },
-            )
+            next(errorHandler( 400, 'All fields are required'));
         }
 
         // Check if email is in a valid format
         const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
         if (!emailRegex.test(email)) {
-            return res.status(400).json(
-              {
-                  success: false,
-                  message: 'Invalid email format',
-              },
-            )
+            next(errorHandler(400, 'Invalid email format'));
         }
 
         // Check if password meets security requirements
         if (password.length < 8) {
-            return res.status(400).json(
-              {
-                  success: false,
-                  message: 'Password should be at least 8 characters long',
-              },
-            )
+           next(errorHandler(400, 'Password must be at least 8 characters'));
         }
 
         // check if email already exists
         const user = await User.findOne({email});
 
         if(user){
-            return res.status(400).json(
-              {
-                  success: false,
-                  message: "Email already exists! Please Register with another email address."
-              }
-            )
+            next(errorHandler(400, 'Email already exists'));
         }
 
         const hashedPassword = bcrypt.hashSync(password, 10);
@@ -69,11 +50,6 @@ export const signup = async (req,res) => {
           }
         )
     } catch (error){
-        res.json(
-          {
-                success: false,
-                message: "An error occurred. Please try again later."
-          }
-        )
+        next(error);
     }
 }
