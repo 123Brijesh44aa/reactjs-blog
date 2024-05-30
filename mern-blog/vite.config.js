@@ -13,4 +13,14 @@ export default defineConfig({
               './src'),
         },
     },
+    // server: {
+    //   proxy: {
+    //       "/api":{
+    //           target: "http://localhost:3009",
+    //           secure: false,
+    //           changeOrigin: true,
+    //           rewrite: (path) => path.replace(/^\/api/,""),
+    //       }
+    //   }
+    // }
 })
