@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { configDotenv } from 'dotenv'
 import userRoute from './routes/User.route.js'
 import authRoute from "./routes/Auth.route.js"
+import cors from "cors";
 
 configDotenv()
 
@@ -17,6 +18,13 @@ mongo_db_connection_url_string = mongo_db_connection_url_string.replace(
   '<username>', mongo_db_username)
 
 const app = express();
+
+// Enable All CORS Requests
+// app.use(cors())
+
+app.use(cors({
+    origin: `http://localhost:5173` // Allow only this origin
+}));
 
 app.use(express.json());
 
@@ -41,9 +49,9 @@ app.use("/api/auth",authRoute);
 
 
 app.use((err, req, res, next) => {
-    const statusCode = err.status || 500;
-    const message = err.message || "Internal Server Error";
-    res.status(statusCode).json(
+    const statusCode = err?.status || 500;
+    const message = err?.message || "Internal Server Error";
+    res?.status(statusCode).json(
       {
           success: false,
           statusCode,
