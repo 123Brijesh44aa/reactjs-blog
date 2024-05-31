@@ -1,5 +1,8 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {signInFailure, signInStart, signInSuccess} from "@/redux/user/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/redux/store";
 
 
 interface SigninFormDataType {
@@ -15,22 +18,21 @@ const InitialSigninFormData: SigninFormDataType = {
 export default function Signin() {
 
 	const [formData, setFormData] = useState<SigninFormDataType>(InitialSigninFormData);
-	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const {loading, error} = useSelector((state: RootState) => state.user);
+	const dispatch = useDispatch();
 
 	console.log(formData);
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
-		setError(null);
+
 		if (!formData.email || !formData.password) {
-			return setError("Please fill out all fields.");
+			return dispatch(signInFailure("Please fill all the fields"));
 		}
 
 		try {
-			setLoading(true);
-			setError(null);
+			dispatch(signInStart());
 			const res = await fetch("http://localhost:3009/api/auth/signin", {
 				method: "POST",
 				headers: {"Content-Type": "application/json"},
@@ -38,18 +40,15 @@ export default function Signin() {
 			});
 			const data = await res.json();
 			if (data.success) {
-				setLoading(false);
-				setError(null);
+				dispatch(signInSuccess(data));
 				navigate("/");
 			}
 			if (!data.success) {
-				setError(data.message);
-				setLoading(false);
+				dispatch(signInFailure(data.message));
 			}
 			console.log(data);
 		} catch (error: any) {
-			setError("Something went wrong. Please try again.");
-			setLoading(false);
+			dispatch(signInFailure("Something went wrong. Please try again"));
 		}
 	}
 
@@ -137,8 +136,26 @@ export default function Signin() {
 							<button
 								type="submit"
 								className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								disabled={loading}
 							>
-								Sign in
+								{
+									loading
+										?
+										(
+											<svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+											     xmlns="http://www.w3.org/2000/svg"
+											     viewBox="0 0 24 24">
+												<circle className="opacity-25" cx="12" cy="12" r="10"
+												        stroke="currentColor"
+												        strokeWidth="4"/>
+												<path className="opacity-75" fill="currentColor"
+												      d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8s-3.582 8-8 8V4a4 4 0 00-4 4H0a8 8 0 018-8z"/>
+											</svg>
+										)
+										:
+										"Sign in"
+								}
+
 							</button>
 						</div>
 
