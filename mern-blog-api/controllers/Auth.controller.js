@@ -102,3 +102,58 @@ export const signin = async (req, res, next) => {
         next(error);
     }
 }
+
+
+
+export const google = async (req,res,next) => {
+    try {
+        const {email, name, googlePhotoUrl} = req.body;
+        const user = await User.findOne({email});
+        if (user){
+            const token = jwt.sign(
+              {id: user._id},
+              JWT_SECRET,
+            );
+            const {password, ...user} = user._doc;
+            res.status(200).cookie("access_token", token, {
+                httpOnly: true,
+                sameSite: 'none'
+            }).json(
+              {
+                  success: true,
+                  message: "User logged in successfully",
+                  user: user,
+              }
+            )
+        } else {
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+            const newUser = new User(
+              {
+                  username: name.toLowerCase().split(" ").join("") + Math.random().toString(9).slice(-4),
+                  email,
+                  password: hashedPassword,
+                  profilePicture: googlePhotoUrl,
+              }
+            );
+            await newUser.save();
+            const token = jwt.sign(
+              {id: newUser._id},
+              JWT_SECRET,
+            );
+            const {password, ...user} = newUser._doc;
+            res.status(200).cookie("access_token", token, {
+                httpOnly: true,
+                sameSite: 'none'
+            }).json(
+              {
+                  success: true,
+                  message: "User created successfully",
+                  user: user,
+              }
+            )
+        }
+    } catch (error){
+        next(error);
+    }
+}

@@ -2,6 +2,7 @@ import {images} from "@/utils/constants";
 import {Link, useNavigate} from "react-router-dom";
 import Logo from "@/components/Logo";
 import React, {useState} from "react";
+import OAuth from "@/components/OAuth";
 
 interface SignupFormDataType {
 	username: string;
@@ -192,6 +193,10 @@ const Signup = () => {
 											loading ? (<span className={"pl-3"}>Loading...</span>) : "Sign Up"
 										}
 									</button>
+								</div>
+
+								<div className={"w-full"}>
+									<OAuth title={"Continue with Google"}/>
 								</div>
 
 								<div className={"w-full"}>

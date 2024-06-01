@@ -20,7 +20,7 @@ mongo_db_connection_url_string = mongo_db_connection_url_string.replace(
 const app = express();
 
 // Enable All CORS Requests
-// app.use(cors())
+// redux.use(cors())
 
 app.use(cors({
     origin: `http://localhost:5173` // Allow only this origin
