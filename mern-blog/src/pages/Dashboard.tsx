@@ -24,12 +24,12 @@ const Dashboard = () => {
 		<div className={"min-h-full w-full pb-12"}>
 			<div className={"flex flex-col md:flex-row justify-start  gap-8"}>
 
-				<div className={"min-h-screen bg-gray-50 dark:bg-zinc-950 border-e border-gray-300 dark:border-gray-800"}>
+				<div className={"md:min-h-screen bg-gray-50 dark:bg-zinc-950 border-e border-gray-300 dark:border-gray-800"}>
 					{/*  Sidebar  */}
 					<DashSidebar/>
 				</div>
 				{/*  Profile if tab=profile  */}
-				<div className={"min-h-screen"}>
+				<div className={"md:min-h-screen max-w-lg mx-auto w-full"}>
 					{
 						tab === "profile" && <DashProfile/>
 					}
