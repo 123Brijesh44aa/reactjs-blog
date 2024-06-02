@@ -81,9 +81,9 @@ const Signup = () => {
 
 							<div className={"mb-10"}>
 								<Logo width={"400"} height={"200"}/>
-								<h1 className={"text-2xl font-bold text-gray-800 py-3"}>Sign Up with your email and
+								<h1 className={"text-2xl font-bold text-gray-800 dark:text-gray-400 py-3"}>Sign Up with your email and
 									password or with Google</h1>
-								<p>Dive into a world where curiosity meets creativity. Sign up to join our community and
+								<p className={"dark:text-gray-500"}>Dive into a world where curiosity meets creativity. Sign up to join our community and
 									stay updated with the latest posts. It's all about sharing stories and insights, one
 									post at a time.</p>
 							</div>
@@ -95,7 +95,7 @@ const Signup = () => {
 								<div
 									className={"w-full"}>
 									<label
-										className={"text-gray-800 font-medium"}>
+										className={"text-gray-800 font-medium dark:text-gray-400"}>
 										Your username
 									</label>
 									<input id={"username"}
@@ -112,14 +112,14 @@ const Signup = () => {
 											       )
 										       );
 									       }}
-									       className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md"}
+									       className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md dark:text-gray-300 dark:bg-black dark:ring-gray-500"}
 									/>
 
 								</div>
 
 								<div
 									className={"w-full"}>
-									<label className={"text-gray-800 font-medium"}>
+									<label className={"text-gray-800 font-medium  dark:text-gray-400"}>
 										Your email
 									</label>
 									<input
@@ -137,14 +137,14 @@ const Signup = () => {
 												)
 											);
 										}}
-										className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md"}
+										className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md dark:text-gray-300 dark:bg-black dark:ring-gray-500"}
 									/>
 
 								</div>
 
 								<div
 									className={"w-full"}>
-									<label className={"text-gray-800 font-medium"}>
+									<label className={"text-gray-800 font-medium  dark:text-gray-400"}>
 										Your password
 									</label>
 									<input
@@ -162,7 +162,7 @@ const Signup = () => {
 												)
 											);
 										}}
-										className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md"}
+										className={"w-full mt-2 px-4 py-3 outline-none ring-1 ring-gray-300 focus:ring-1 focus:ring-btn_bg rounded-md dark:text-gray-300 dark:bg-black dark:ring-gray-500"}
 									/>
 								</div>
 

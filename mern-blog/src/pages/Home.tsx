@@ -1,7 +1,7 @@
 
 const Home = () => {
     return (
-      <div>
+      <div className={"min-h-full px-6 py-12 lg:px-8"}>
           Home
       </div>
     )

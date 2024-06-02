@@ -6,7 +6,7 @@ import {navigation} from "@/utils/constants";
 
 export default function Footer() {
 	return (
-		<footer className="bg-white" aria-labelledby="footer-heading">
+		<footer className="bg-white dark:bg-black" aria-labelledby="footer-heading">
 			<h2 id="footer-heading" className="sr-only">
 				Footer
 			</h2>
@@ -37,7 +37,7 @@ export default function Footer() {
 								<ul role="list" className="mt-4 space-y-4">
 									{navigation.company.map((item) => (
 										<li key={item.name}>
-											<a href={item.href} target={item.name==="brijesh-mourya"?"_blank":""} className="text-base text-gray-500 hover:text-gray-900">
+											<a href={item.href} target={item.name==="brijesh-mourya"?"_blank":""} className="text-base text-gray-500 hover:text-gray-900 dark:hover:text-gray-300">
 												{item.name}
 											</a>
 										</li>
@@ -49,7 +49,7 @@ export default function Footer() {
 								<ul role="list" className="mt-4 space-y-4">
 									{navigation.solutions.map((item) => (
 										<li key={item.name}>
-											<a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
+											<a href={item.href} className="text-base text-gray-500 hover:text-gray-900 dark:hover:text-gray-300">
 												{item.name}
 											</a>
 										</li>
@@ -63,7 +63,7 @@ export default function Footer() {
 								<ul role="list" className="mt-4 space-y-4">
 									{navigation.legal.map((item) => (
 										<li key={item.name}>
-											<a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
+											<a href={item.href} className="text-base text-gray-500 hover:text-gray-900 dark:hover:text-gray-300">
 												{item.name}
 											</a>
 										</li>
@@ -74,7 +74,7 @@ export default function Footer() {
 						</div>
 					</div>
 				</div>
-				<div className="mt-12 border-t border-gray-200 pt-8">
+				<div className="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8">
 					<p className="text-base text-gray-400 xl:text-center">&copy; {new Date().getFullYear()} BrijeshMourya, Inc. All rights reserved.</p>
 				</div>
 			</div>

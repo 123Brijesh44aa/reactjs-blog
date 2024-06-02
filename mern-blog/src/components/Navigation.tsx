@@ -9,12 +9,14 @@ import {
 	MenuItems,
 	Transition
 } from '@headlessui/react'
-import {BellIcon, MenuIcon, XIcon,} from '@heroicons/react/solid'
+import {MenuIcon, XIcon,} from '@heroicons/react/solid'
 import {BiSearch} from "react-icons/bi";
 import {FaMoon} from "react-icons/fa6";
 import {Link, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/redux/store";
+import {toggleTheme} from "@/redux/theme/themeSlice";
+import {FaSun} from "react-icons/fa";
 
 
 const navigation = [
@@ -31,6 +33,9 @@ export default function Navigation() {
 
 	const location = useLocation().pathname;
 	const {currentUser} = useSelector((state: RootState) => state.user);
+	const {theme} = useSelector((state: RootState) => state.theme);
+
+	const dispatch = useDispatch();
 
 	const current = (path: string) => location === path;
 
@@ -38,7 +43,7 @@ export default function Navigation() {
 		<>
 			<div className="min-h-full">
 				<Disclosure as="nav"
-				            className="bg-white border-b border-gray-200">
+				            className="bg-white border-b border-gray-200 dark:border-gray-700 dark:bg-black">
 					{
 						({open}) => (
 							<>
@@ -70,7 +75,7 @@ export default function Navigation() {
 															href={item.href}
 															className={classNames(
 																current(item.href)
-																	? 'border-indigo-500 text-gray-900'
+																	? 'border-indigo-500 text-gray-800 dark:text-gray-200'
 																	: 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
 																'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
 															)}
@@ -91,7 +96,7 @@ export default function Navigation() {
 												type={"search"}
 												name={"search"}
 												placeholder={"Search here..."}
-												className={"px-4 border-none rounded-md bg-gray-100"}
+												className={"px-4 border-none rounded-md bg-gray-100 dark:bg-black dark:ring-1 dark:ring-gray-600 dark:focus:ring-indigo-600 "}
 											/>
 										</div>
 
@@ -104,11 +109,21 @@ export default function Navigation() {
 
 											<button
 												type="button"
-												className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+												className="bg-white dark:bg-black p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+												onClick={() => dispatch(toggleTheme())}
 											>
 												<span className="sr-only">View Themes</span>
-												<FaMoon className="h-6 w-6"
-												        aria-hidden="true"/>
+												{
+													theme === "light"
+														?
+														(
+															<FaMoon className="h-6 w-6" aria-hidden="true"/>
+														)
+														:
+														(
+															<FaSun className={"h-6 w-6 bg-black"} aria-hidden={"true"}/>
+														)
+												}
 											</button>
 
 
@@ -121,7 +136,7 @@ export default function Navigation() {
 														      className="ml-3 relative">
 															<div>
 																<MenuButton
-																	className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+																	className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
 																	<span className="sr-only">Open user menu</span>
 																	<img
 																		className="h-8 w-8 rounded-full"
@@ -139,7 +154,7 @@ export default function Navigation() {
 																leaveTo="transform opacity-0 scale-95"
 															>
 																<MenuItems
-																	className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+																	className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-black ring-1 ring-black ring-opacity-5 focus:outline-none">
 
 																	<MenuItem>
 																		{({focus}) => (
@@ -148,7 +163,7 @@ export default function Navigation() {
 																					focus
 																						? 'bg-gray-100'
 																						: '',
-																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer dark:hover:bg-gray-900 dark:hover:text-gray-500',
 																				)}
 																			>
 																				@{currentUser.user.username}
@@ -163,7 +178,7 @@ export default function Navigation() {
 																					focus
 																						? 'bg-gray-100'
 																						: '',
-																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer dark:hover:bg-gray-900 dark:hover:text-gray-500',
 																				)}
 																			>
 																				{currentUser.user.email}
@@ -179,7 +194,7 @@ export default function Navigation() {
 																					focus
 																						? 'bg-gray-100'
 																						: '',
-																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer dark:hover:bg-gray-900 dark:hover:text-gray-500',
 																				)}
 																			>
 																				Profile
@@ -195,7 +210,7 @@ export default function Navigation() {
 																					focus
 																						? 'bg-gray-100'
 																						: '',
-																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
+																					'block px-4 py-2 text-sm text-gray-700 cursor-pointer dark:hover:bg-gray-900 dark:hover:text-gray-500',
 																				)}
 																			>
 																				Sign out
@@ -212,7 +227,7 @@ export default function Navigation() {
 													(
 														// Sign in button
 														<Link
-															className={"rounded-xl ml-3 px-4 py-2 ring-2 ring-violet-200 hover:bg-gray-50 font-medium focus:ring-violet-600"}
+															className={"rounded-xl ml-3 px-4 py-2 ring-2 ring-violet-200 hover:bg-gray-50 font-medium focus:ring-violet-600 dark:ring-gray-600 dark:text-gray-500 dark:focus:bg-gray-800"}
 															to={"/sign-in"}>
 															Sign in
 														</Link>
@@ -222,17 +237,38 @@ export default function Navigation() {
 										</div>
 										<div
 											className="-mr-2 flex items-center sm:hidden">
+
+											{/* Theme Toggle Button in with mobile menu button*/}
+											<button
+												type="button"
+												className="bg-white dark:bg-black p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+												onClick={() => dispatch(toggleTheme())}
+											>
+												<span className="sr-only">View Themes</span>
+												{
+													theme === "light"
+														?
+														(
+															<FaMoon className="h-6 w-6" aria-hidden="true"/>
+														)
+														:
+														(
+															<FaSun className={"h-6 w-6 bg-black"} aria-hidden={"true"}/>
+														)
+												}
+											</button>
+
 											{/* Mobile menu button */}
 											<DisclosureButton
-												className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        <span
-	                                        className="sr-only">Open main menu</span>
+												className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-black">
+												<span
+													className="sr-only">Open main menu</span>
 												{open ? (
-													<XIcon className="block h-6 w-6"
+													<XIcon className="block h-6 w-6 dark:bg-black"
 													       aria-hidden="true"/>
 												) : (
 													<MenuIcon
-														className="block h-6 w-6"
+														className="block h-6 w-6 dark:bg-black"
 														aria-hidden="true"/>
 												)}
 											</DisclosureButton>
@@ -249,8 +285,8 @@ export default function Navigation() {
 												href={item.href}
 												className={classNames(
 													current(item.href)
-														? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-														: 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+														? 'bg-indigo-50 border-indigo-500 text-indigo-700 dark:bg-indigo-600 dark:text-gray-200'
+														: 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 dark:hover:bg-gray-900 dark:hover:text-gray-300 dark:hover:border-gray-800 hover:text-gray-800',
 													'block pl-3 pr-4 py-2 border-l-4 text-base font-medium',
 												)}
 												aria-current={current(item.href)
@@ -267,7 +303,7 @@ export default function Navigation() {
 											?
 											(
 												<div
-													className="pt-4 pb-3 border-t border-gray-200">
+													className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-800">
 													<div className="flex items-center px-4">
 														<div className="flex-shrink-0">
 															<img
@@ -276,7 +312,7 @@ export default function Navigation() {
 														</div>
 														<div className="ml-3">
 															<div
-																className="text-base font-medium text-gray-800">@{currentUser.user.username}</div>
+																className="text-base font-medium text-gray-800 dark:text-gray-300">@{currentUser.user.username}</div>
 															<div
 																className="text-sm font-medium text-gray-500">{currentUser.user.email}</div>
 														</div>
@@ -285,7 +321,7 @@ export default function Navigation() {
 														<DisclosureButton
 															as={"a"}
 															href={"/dashboard?tab=profile"}
-															className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+															className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-400"
 														>
 															Your Profile
 														</DisclosureButton>
@@ -293,7 +329,7 @@ export default function Navigation() {
 														<DisclosureButton
 															as={"button"}
 															// onClick={handleSignout}
-															className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+															className="w-full text-start block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-400"
 														>
 															Sign out
 														</DisclosureButton>
