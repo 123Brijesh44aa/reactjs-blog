@@ -4,6 +4,7 @@ import { configDotenv } from 'dotenv'
 import userRoute from './routes/User.route.js'
 import authRoute from "./routes/Auth.route.js"
 import cors from "cors";
+import cookieParser from 'cookie-parser'
 
 configDotenv()
 
@@ -27,6 +28,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 mongoose.connect(mongo_db_connection_url_string).then(
   () => {
